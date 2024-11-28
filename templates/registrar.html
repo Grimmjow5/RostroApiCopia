@@ -1,0 +1,77 @@
+{% from "_formhelper.html" import render_field %}
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="container mx-auto w-50">
+{% if error %}
+<div class="alert alert-danger" role="alert">
+  {{error}}
+</div>
+{% endif %}
+
+{% if success %}
+<div class="alert alert-success" role="alert">
+  {{success}}
+</div>
+{% endif %}
+<form method="POST" enctype="multipart/form-data">
+  {{ form.id(class_="d-none") }}
+  {{ render_field(form.nickname) }}
+  {{ render_field(form.nombre) }}
+  {{ render_field(form.correo) }}
+  {{ render_field(form.nEmpleado) }}
+  {{ render_field(form.telefono) }}
+  {{ form.activo.label }}
+  {{ form.activo }}
+
+  {{ render_field(form.foto1) }}
+  {{ render_field(form.foto2) }}
+  {{ render_field(form.foto3) }}
+<input type="submit" class="btn btn-primary" value="Register">
+</form>
+  <a  href="https://www.google.com/" class="btn btn-danger my-3" >Limpiar</a>
+</div>
+
+<!--Tabla de empleados-->>
+
+<div class="content w-75 mx-auto">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Nombre Completo</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Número de Empleado</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Imagen De Muestra</th>
+        <th scope="col">Imagen Escala de Grises</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for field in empleado %}
+
+      <th>{{field.id}}
+        <a href="/interface/update/{{field.id}}">Editar</a>
+      </th>
+      <td>{{field.nickname}}</td>
+      <td>{{field.nombre}}</td>
+      <td>{{field.correo}}</td>
+      <td>{{field.nempleado}}</td>
+      <td>{{field.telefono}}</td>
+      <td>{{field.activo}}</td>
+      <td>
+        imgagen
+      </td>
+      <td>
+       imagen</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+</div>
+
+    {% endblock %}
