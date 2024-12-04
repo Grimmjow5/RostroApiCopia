@@ -63,7 +63,7 @@ async def update(idUser):
 
 
 @interfaceApi.route('/verificar', methods=['GET', 'POST'])
-def verificar():
+async def verificar():
   if request.method == 'GET':
     form = Verificando()
     return render_template('verificacion.html',form=form, error="", success="")
@@ -71,25 +71,27 @@ def verificar():
     form = Verificando(request.form)
     if form.validate():
       try:
-        control = SaveImgs(form.nickname.data,"TMP")
-        foto = request.files['foto']
-        if foto.filename == "":
-          raise Exception("No se ha seleccionado ninguna imagen")
-
-        path = control.SaveFileTemp(foto)
-        control.FormatImg(path,0)#Ya se guardo en tmp
-        #Ahora hay que obtener todas las fotos ya guardadas en la base y sobre de este comparar, con las nuevas
-        listFotos = control.listarMuestras()
-        print(listFotos)
-        validacion = 0
-        for item in listFotos:
-          result =control.Verificacion(item)
-          if result == True:
-            validacion = validacion + 1
-        if validacion >= 2:
-          return render_template('verificacion.html',form=form, error="", success="Verificacion Exitosa")
-        else:
-          return render_template('verificacion.html',form=form, error="Verificacion no exitosa", success="")
+        valida = await  Repository.GetExistEmpleado(form.nickname.data)
+        if valida == True:
+          control = SaveImgs(form.nickname.data,"TMP")
+          foto = request.files['foto']
+          if foto.filename == "":
+            raise Exception("No se ha seleccionado ninguna imagen")
+          path = control.SaveFileTemp(foto)
+          control.FormatImg(path,0)#Ya se guardo en tmp
+          #Ahora hay que obtener todas las fotos ya guardadas en la base y sobre de este comparar, con las nuevas
+          listFotos = control.listarMuestras()
+          validacion = 0
+          for item in listFotos:
+            result =control.Verificacion(item)
+            if result == True:
+              validacion = validacion + 1
+          if validacion >= 2:
+            return render_template('verificacion.html',form=form, error="", success="Verificacion Exitosa")
+          else:
+            return render_template('verificacion.html',form=form, error="Verificacion no exitosa", success="")
 
       except Exception as e:
         return render_template('verificacion.html',form=form,error=e)
+    else:
+      return render_template('verificacion.html',form=form)

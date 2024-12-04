@@ -52,13 +52,18 @@ class Repository:
       empleado = await Empleado.filter(nickname=nickname).first()
       await Tortoise.close_connections()
       if empleado == None:
-        print("No existe empleado")
-        return False
+
+        raise Exception("No existe empleado")
       print("Existe empleado")
+      print(empleado.activo)
+      if empleado.activo == False:
+        raise Exception("Empleado no Activado")
       return True
+
     except Exception as e:
       await Tortoise.close_connections()
-      return False
+      raise Exception(e)
+
   async def GetEmpladoId(id:int)->EmpleadoDto:
     try:
       empleado = await Empleado.get(id=id)

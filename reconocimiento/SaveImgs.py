@@ -93,9 +93,9 @@ class SaveImgs:
     print("Formato Exitoso")
 
   def listarMuestras(self):
-    print("listando")
+
     nn = os.listdir(f"muestras/{self.name}")
-    print(nn)
+
     listaRutas = []
     nueva = []
     # Extensiones comunes de imágenes
