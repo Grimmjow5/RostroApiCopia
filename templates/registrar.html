@@ -3,38 +3,38 @@
 {% block content %}
 
 <div class="container mx-auto w-50">
-{% if error %}
-<div class="alert alert-danger" role="alert">
-  {{error}}
+  {% if error %}
+  <div class="alert alert-danger" role="alert">
+    {{error}}
+  </div>
+  {% endif %}
+
+  {% if success %}
+  <div class="alert alert-success" role="alert">
+    {{success}}
+  </div>
+  {% endif %}
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.id(class_="d-none") }}
+    {{ render_field(form.nickname) }}
+    {{ render_field(form.nombre) }}
+    {{ render_field(form.correo) }}
+    {{ render_field(form.nEmpleado) }}
+    {{ render_field(form.telefono) }}
+    {{ form.activo.label }}
+    {{ form.activo }}
+
+    {{ render_field(form.foto1) }}
+    {{ render_field(form.foto2) }}
+    {{ render_field(form.foto3) }}
+    <input type="submit" class="btn btn-primary" value="Register">
+  </form>
+  <a href="/interface/registrar" class="btn btn-danger my-3">Limpiar</a>
 </div>
-{% endif %}
 
-{% if success %}
-<div class="alert alert-success" role="alert">
-  {{success}}
-</div>
-{% endif %}
-<form method="POST" enctype="multipart/form-data">
-  {{ form.id(class_="d-none") }}
-  {{ render_field(form.nickname) }}
-  {{ render_field(form.nombre) }}
-  {{ render_field(form.correo) }}
-  {{ render_field(form.nEmpleado) }}
-  {{ render_field(form.telefono) }}
-  {{ form.activo.label }}
-  {{ form.activo }}
+<!--Tabla de empleados-->
 
-  {{ render_field(form.foto1) }}
-  {{ render_field(form.foto2) }}
-  {{ render_field(form.foto3) }}
-<input type="submit" class="btn btn-primary" value="Register">
-</form>
-  <a  href="https://www.google.com/" class="btn btn-danger my-3" >Limpiar</a>
-</div>
-
-<!--Tabla de empleados-->>
-
-<div class="content w-75 mx-auto">
+<div class="content mx-auto" style="max-width: 90%;">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -45,12 +45,13 @@
         <th scope="col">Número de Empleado</th>
         <th scope="col">Telefono</th>
         <th scope="col">Activo</th>
-        <th scope="col">Imagen De Muestra</th>
-        <th scope="col">Imagen Escala de Grises</th>
+        <th scope="col">Imagen De Muestra y Grises 1</th>
+        <th scope="col">Imagen De Muestra y Grises 2</th>
+        <th scope="col">Imagen De Muestra y Grises 3</th>
       </tr>
     </thead>
     <tbody>
-    {% for field in empleado %}
+      {% for field in empleado %}
 
       <th>{{field.id}}
         <a href="/interface/update/{{field.id}}">Editar</a>
@@ -62,16 +63,29 @@
       <td>{{field.telefono}}</td>
       <td>{{field.activo}}</td>
       <td>
-        imgagen
+        <img src="{{url_for('static', filename='/'+field.nickname+'/originales/muestra_'+field.nickname+'0.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
+        <img src="{{url_for('static', filename='/'+field.nickname+'/'+field.nickname+'0.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
       </td>
       <td>
-       imagen</td>
-    </tr>
-    {% endfor %}
+        <img src="{{url_for('static', filename='/'+field.nickname+'/originales/muestra_'+field.nickname+'1.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
+        <img src="{{url_for('static', filename='/'+field.nickname+'/'+field.nickname+'1.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
+      </td>
+      <td>
+        <img src="{{url_for('static', filename='/'+field.nickname+'/originales/muestra_'+field.nickname+'2.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
+        <img src="{{url_for('static', filename='/'+field.nickname+'/'+field.nickname+'2.jpg')}}"
+          style="max-height: 100px;" class="img-thumbnail" />
+      </td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
 
 
 </div>
 
-    {% endblock %}
+{% endblock %}

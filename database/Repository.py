@@ -24,6 +24,7 @@ class Repository:
     except Exception as e:
       await Tortoise.close_connections()
       raise Exception(e)
+
   async def UpdateEmpleado(empleado:EmpleadoDto):
     try:
       try:
@@ -44,6 +45,20 @@ class Repository:
       await Tortoise.close_connections()
       raise Exception(e)
 
+
+  async def GetExistEmpleado(nickname:str)->bool:
+    try:
+      print("Buscando un empleado")
+      empleado = await Empleado.filter(nickname=nickname).first()
+      await Tortoise.close_connections()
+      if empleado == None:
+        print("No existe empleado")
+        return False
+      print("Existe empleado")
+      return True
+    except Exception as e:
+      await Tortoise.close_connections()
+      return False
   async def GetEmpladoId(id:int)->EmpleadoDto:
     try:
       empleado = await Empleado.get(id=id)

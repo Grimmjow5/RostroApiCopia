@@ -1,0 +1,28 @@
+{% from "_formhelper.html" import render_field %}
+
+{% extends "_layout.html" %}
+
+{% block content %}
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+  {{error}}
+</div>
+{% endif %}
+{% if success %}
+<div class="alert alert-success" role="alert">
+  {{success}}
+</div>
+{% endif %}
+
+
+<div class="container mx-auto w-75">
+  <form method="post" enctype="multipart/form-data">
+    {{ render_field(form.nickname) }}
+    {{ render_field(form.foto) }}
+    <input type="submit" value="Verificar" class="btn btn-primary">
+    <a href="/interface/verificar" class="btn btn-danger my-3">Limpiar</a>
+  </form>
+</div>
+
+{% endblock %}
