@@ -99,12 +99,14 @@ class SaveImgs:
     listaRutas = []
     nueva = []
     # Extensiones comunes de imágenes
-    extensiones_imagen = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff'}
+    extensiones_imagen = {'.jpg', '.jpeg', '.png'}
     for item in nn:
       # Verificar si el archivo es una imagen y no es 'originales'
       if item != "originales" and os.path.splitext(item)[1].lower() in extensiones_imagen:
         nueva.append(item)
-
+    print("Lista de imágenes")
+    print(nueva)
+    print("Lista de imágenes")
     path = os.path.dirname(os.path.abspath(__file__))
     for i in nueva:
       listaRutas.append(os.path.join(f"{path}/../muestras/{self.name}/{i}"))
