@@ -1,0 +1,86 @@
+{% from "_formhelper.html" import render_field %}
+{% extends "_layout.html" %}
+{% block content %}
+
+<div class="container mx-auto w-100 row">
+  <div class="col-6">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+      {{error}}
+    </div>
+    {% endif %}
+
+    {% if success %}
+    <div class="alert alert-success" role="alert">
+      {{success}}
+    </div>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.id(class_="d-none") }}
+      {{ render_field(form.nickname) }}
+      {{ render_field(form.nombre) }}
+      {{ render_field(form.correo) }}
+      {{ render_field(form.nEmpleado) }}
+      {{ render_field(form.telefono) }}
+      {{ form.activo.label }}
+      {{ form.activo }}
+
+      {{ render_field(form.video) }}
+      <input type="submit" class="btn btn-primary" value="Register">
+    </form>
+    <a href="/interface/registrarV" class="btn btn-danger my-3">Limpiar</a>
+  </div>
+  <div class="col-6">
+    <!--Es unalista de las fotos disponibles-->
+
+    {% if form.nickname.data %}
+      {% for item in fotos %}
+        <img src="{{url_for('static', filename='/'+form.nickname.data+'/'+item)}}" style="max-height: 100px;"
+       class="img-thumbnail" />
+      {% endfor %}
+    {% else %}
+      <h1>No hay imagenes</h1>
+    {% endif %}
+  </div>
+
+</div>
+
+
+<!--Tabla de empleados-->
+
+<div class="content mx-auto" style="max-width: 90%;">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Nombre Completo</th>
+        <th scope="col">Correo</th>
+        <th scope="col">Número de Empleado</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Activo</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for field in empleado %}
+
+      <th>{{field.id}}
+        <a href="/interface/updateV/{{field.id}}">Editar</a>
+      </th>
+      <td>{{field.nickname}}</td>
+      <td>{{field.nombre}}</td>
+      <td>{{field.correo}}</td>
+      <td>{{field.nempleado}}</td>
+      <td>{{field.telefono}}</td>
+      <td>{{field.activo}}</td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+</div>
+
+{% endblock %}

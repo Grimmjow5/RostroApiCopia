@@ -16,6 +16,16 @@ class EmpleadoDto(FlaskForm):
 
 
 
+class EmpleadoVideo(FlaskForm):
+  id = IntegerField('id', [validators.Optional()])
+  nickname = StringField('Username', validators=[validators.Length(min=4)])
+  nombre = StringField('Nombre Completo', [validators.Length(min=4)])
+  correo = StringField('Correo', [validators.Length(min=6,max=30)])
+  nEmpleado = IntegerField('Número de Empleado',[validators.NumberRange(min=100,max=1000000)])
+  telefono = StringField('Número de Telefono',[validators.Length(min=10,max=12)])
+  activo = BooleanField('Activo',default=False)
+  video = FileField('Video')
+
 class Verificando(Form):
   nickname = StringField('Username', [validators.Length(min=4, max=25)])
   foto = FileField('Image File')
